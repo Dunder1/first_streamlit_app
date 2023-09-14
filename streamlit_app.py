@@ -5,9 +5,9 @@ import snowflake.connector
 
 my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
 my_cur = my_cnx.cursor()
-my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
+my_cur.execute("select * from fruitload_list")
 my_data_row = my_cur.fetchone()
-st.text("Hello from Snowflake:")
+st.text("The fruit load list contains:")
 st.text(my_data_row)
 
 my_fruit_list = pd.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
