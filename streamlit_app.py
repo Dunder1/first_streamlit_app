@@ -3,13 +3,6 @@ import pandas as pd
 import requests
 import snowflake.connector
 
-my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("select * from fruit_load_list")
-my_data_row = my_cur.fetchone()
-st.text("The fruit load list contains:")
-st.text(my_data_row)
-
 my_fruit_list = pd.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 my_fruit_list = my_fruit_list.set_index('Fruit')
 
@@ -40,7 +33,11 @@ fruityvice_normalized = pd.json_normalize(fruityvice_response.json())
 # write your own comment - what does this do?
 st.dataframe(fruityvice_normalized)
 
-#my_cur.execute("select * from fruit_load_list")
-#my_data_rows = my_cur.fetchall()
-#st.header("the fruit load list contains:")
-#st.dataframe(my_data_rows)
+my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
+my_cur = my_cnx.cursor()
+my_cur.execute("select * from fruit_load_list")
+my_data_rows = my_cur.fetchall()
+st.text("The fruit load list contains:")
+st.text(my_data_rows)
+st.header("the fruit load list contains:")
+st.dataframe(my_data_rows)
